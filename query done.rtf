@@ -41,3 +41,7 @@
 8 - SELECT *
     FROM posts
     WHERE JSON_CONTAINS(tags, '"serata"');
+
+9 - SELECT posts.title, tags
+    FROM posts
+    ORDER BY JSON_LENGTH(tags) DESC;
