@@ -45,3 +45,15 @@
 9 - SELECT posts.title, tags
     FROM posts
     ORDER BY JSON_LENGTH(tags) DESC;
+
+10 - SELECT 
+        users.username,
+        SUM(JSON_LENGTH(posts.tags)) AS total_tags
+    FROM 
+        users
+    INNER JOIN 
+        posts ON users.id = posts.user_id
+    GROUP BY 
+        users.id, users.username
+    ORDER BY 
+        total_tags DESC;
