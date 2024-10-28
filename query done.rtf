@@ -15,25 +15,29 @@
     users.username AS name,
     COALESCE(post_counts.post_count, 0) AS post_count,
     COALESCE(media_counts.media_count, 0) AS media_count
-FROM 
-    users
-LEFT JOIN 
-    (
-        SELECT 
-            user_id, 
-            COUNT(id) AS post_count 
-        FROM 
-            posts 
-        GROUP BY 
-            user_id
-    ) AS post_counts ON users.id = post_counts.user_id
-LEFT JOIN 
-    (
-        SELECT 
-            user_id, 
-            COUNT(id) AS media_count 
-        FROM 
-            medias 
-        GROUP BY 
-            user_id
-    ) AS media_counts ON users.id = media_counts.user_id;
+    FROM 
+        users
+    LEFT JOIN 
+        (
+            SELECT 
+                user_id, 
+                COUNT(id) AS post_count 
+            FROM 
+                posts 
+            GROUP BY 
+                user_id
+        ) AS post_counts ON users.id = post_counts.user_id
+    LEFT JOIN 
+        (
+            SELECT 
+                user_id, 
+                COUNT(id) AS media_count 
+            FROM 
+                medias 
+            GROUP BY 
+                user_id
+        ) AS media_counts ON users.id = media_counts.user_id;
+
+8 - SELECT *
+    FROM posts
+    WHERE JSON_CONTAINS(tags, '"serata"');
