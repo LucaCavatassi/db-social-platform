@@ -9,3 +9,31 @@
 5 - SELECT users.username, COUNT(likes.user_id) AS total_likes FROM users INNER JOIN posts ON posts.user_id = users.id LEFT JOIN likes ON likes.post_id = posts.id GROUP BY users.username ORDER BY total_likes DESC;\
 
 6 - SELECT posts.title, users.username, TIMESTAMPDIFF(YEAR, users.birthdate, CURRENT_DATE()) AS age FROM posts  INNER JOIN users ON users.id = posts.user_id WHERE TIMESTAMPDIFF(YEAR, users.birthdate, CURRENT_DATE()) BETWEEN 20 AND 30;
+
+7 - SELECT 
+    users.id AS user_id,
+    users.username AS name,
+    COALESCE(post_counts.post_count, 0) AS post_count,
+    COALESCE(media_counts.media_count, 0) AS media_count
+FROM 
+    users
+LEFT JOIN 
+    (
+        SELECT 
+            user_id, 
+            COUNT(id) AS post_count 
+        FROM 
+            posts 
+        GROUP BY 
+            user_id
+    ) AS post_counts ON users.id = post_counts.user_id
+LEFT JOIN 
+    (
+        SELECT 
+            user_id, 
+            COUNT(id) AS media_count 
+        FROM 
+            medias 
+        GROUP BY 
+            user_id
+    ) AS media_counts ON users.id = media_counts.user_id;
